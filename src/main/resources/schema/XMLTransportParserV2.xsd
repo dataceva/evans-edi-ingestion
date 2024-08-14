@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="urn:MercuryGate:import" targetNamespace="urn:MercuryGate:import"
+	elementFormDefault="qualified">
+	<xs:element name="service-request">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="service-id" type="xs:string" />
+				<xs:element name="request-id" type="xs:string" />
+				<xs:element name="data">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="WebImport">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="WebImportHeader">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FileName"
+														type="xs:string" />
+													<xs:element name="Type"
+														type="xs:string" />
+													<xs:element name="UserName"
+														type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="WebImportFile">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element
+														ref="MercuryGate" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element
+		name="MercuryGate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element
+					ref="Header" />
+				<xs:element
+					ref="Load" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Header">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SenderID" type="xs:string" minOccurs="0" />
+				<xs:element name="ReceiverID" type="xs:string" minOccurs="0" />
+				<xs:element name="DocTypeID" type="xs:string" minOccurs="0" />
+				<xs:element name="DocCount" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Load">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="AssignedTo" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element ref="Enterprise" />
+				<xs:element ref="ReferenceNumbers" />
+				<xs:element ref="Payment" />
+				<xs:element ref="ItemGroups" />
+				<xs:element ref="Plan" />
+				<xs:element ref="PriceSheets" minOccurs="0" />
+				<xs:element ref="Shipments" />
+				<xs:element ref="Activities" minOccurs="0" />
+				<xs:element ref="Notes" minOccurs="0" />
+				<xs:element ref="InternationalDetails" minOccurs="0" />
+				<xs:element ref="Comments" minOccurs="0" />
+			</xs:all>
+			<xs:attribute name="type" type="xs:string" />
+			<xs:attribute name="action" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Enterprise">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" />
+			<xs:attribute name="customerAcctNum" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferenceNumbers">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ReferenceNumber" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReferenceNumber">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="required" />
+					<xs:attribute name="isPrimary" type="xs:string" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Payment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Method" type="xs:string" />
+				<xs:element ref="BillTo" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BillTo" type="TypeLocationEnvelope" />
+	<xs:element name="Address">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="AppointmentTime" minOccurs="0"
+						maxOccurs="unbounded" />
+					<xs:element ref="ReferenceNumbers" minOccurs="0"
+						maxOccurs="unbounded" />
+					<xs:element name="LocationCode" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="Name" type="xs:string" minOccurs="0" />
+					<xs:element name="AddrLine1" type="xs:string" minOccurs="0" />
+					<xs:element name="AddrLine2" type="xs:string" minOccurs="0" />
+					<xs:element name="City" type="xs:string" minOccurs="0" />
+					<xs:element name="StateProvince" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="PostalCode" type="xs:string" minOccurs="0" />
+					<xs:element name="CountryCode" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="Comments" type="xs:string" minOccurs="0" />
+					<xs:element ref="Contacts" minOccurs="0"
+						maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:choice>
+			<xs:attribute name="type" type="xs:string" />
+			<xs:attribute name="isResidential" type="xs:boolean" />
+			<xs:attribute name="isPrimary" type="xs:boolean" />
+			<xs:attribute name="isActive" type="xs:boolean" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ItemGroups">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ItemGroup" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ItemGroup">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="ReferenceNumbers" minOccurs="0" />
+				<xs:element ref="MonetaryValue" minOccurs="0" />
+				<xs:element ref="ContainedBy" minOccurs="0" />
+				<xs:element ref="LineItem" />
+				<xs:element ref="Dimensions" minOccurs="0" />
+				<xs:element name="Description" type="xs:string" minOccurs="0" />
+				<xs:element ref="FreightClasses" minOccurs="0" />
+				<xs:element name="Commodity" type="xs:string" minOccurs="0" />
+				<xs:element name="NmfcCode" type="xs:string" minOccurs="0" />
+				<xs:element name="StccCode" type="xs:string" minOccurs="0" />
+				<xs:element name="Stackability" type="xs:integer" minOccurs="0" />
+				<xs:element name="TrackingNumber" type="xs:string" minOccurs="0" />
+				<xs:element name="DeliveryStatus" type="xs:string" minOccurs="0" />
+				<xs:element name="MinTemperature" type="xs:string" minOccurs="0" />
+				<xs:element name="MaxTemperature" type="xs:string" minOccurs="0" />
+				<xs:element name="TemperatureUnits" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="HazardousMaterial" type="xs:string"
+					minOccurs="0" />
+				<xs:element ref="HazMatDetail" minOccurs="0" />
+				<xs:element ref="Weights" />
+				<xs:element ref="Quantities" />
+			</xs:all>
+			<xs:attribute name="id" type="xs:string" />
+			<xs:attribute name="isShipUnit" type="xs:boolean" />
+			<xs:attribute name="isHandlingUnit" type="xs:boolean" />
+			<xs:attribute name="sequence" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LineItem">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Cube" minOccurs="0">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="uom" type="xs:string"
+									use="optional" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HarmonizedTariffCode" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="PortOfLading" type="xs:string" minOccurs="0" />
+				<xs:element name="CountryOfOrigin" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="CountryOfManufacture" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="InsuredValue" type="xs:string" minOccurs="0" />
+				<xs:element name="InsuredValueCurrency" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="CustomsValue" type="xs:string" minOccurs="0" />
+				<xs:element name="CustomsValueCurrency" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="AESExportCode" type="xs:string" minOccurs="0" />
+				<xs:element name="AESLicenseNumber" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="AESLicenseType" type="xs:string" minOccurs="0" />
+				<xs:element name="CustomerPartNum" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="ManufacturerPartNum" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="DistributorPartNum" type="xs:string"
+					minOccurs="0" />
+			</xs:all>
+			<xs:attribute name="lineNumber" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FreightClasses">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="FreightClass" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MonetaryValue">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContainedBy">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="id" type="xs:string" use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FreightClass">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="" />
+								<xs:enumeration value="ordered" />
+								<xs:enumeration value="delivered" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HazMatDetail">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="HazMatID" type="xs:string" minOccurs="0" />
+				<xs:element name="ProperShippingName" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="PackageGroup" type="xs:string" minOccurs="0" />
+				<xs:element name="HazMatClass" type="xs:string" minOccurs="0" />
+				<xs:element name="ContactName" type="xs:string" minOccurs="0" />
+				<xs:element name="ContactPhone" type="xs:string" minOccurs="0" />
+				<xs:element name="HazMatPlacards" type="xs:string" minOccurs="0" />
+				<xs:element name="HazMatPlacardsDetails" type="xs:string"
+					minOccurs="0" />
+				<xs:element ref="HazMatFlashPointTemp" minOccurs="0" />
+				<xs:element name="HazMatEMSNumber" type="xs:string"
+					minOccurs="0" />
+				<xs:element name="Comments" type="xs:string" minOccurs="0" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HazMatFlashPointTemp">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="uom" type="xs:string" />
+				</xs:extension>
+				<!--attribute is required only if tag has contents-->
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Weights">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Weight" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Weight">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="actual" />
+								<xs:enumeration value="planned" />
+								<xs:enumeration value="ordered" />
+								<xs:enumeration value="delivered" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="uom" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Quantities">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Quantity" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Quantity">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="ordered" />
+								<xs:enumeration value="planned" />
+								<xs:enumeration value="actual" />
+								<xs:enumeration value="delivered" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="uom" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Plan">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Events" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Events">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Event" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="count" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Event">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Dates" />
+				<xs:element ref="Address" />
+				<xs:element ref="Shipments" />
+				<xs:element ref="Notes" minOccurs="0" maxOccurs="1" />
+			</xs:all>
+			<xs:attribute name="type" type="xs:string" use="required" />
+			<xs:attribute name="sequenceNum" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Dates">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="Date" maxOccurs="unbounded" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element ref="Pickup" />
+					<xs:element ref="Drop" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Date">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Contacts">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Contact" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Contact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Name" type="xs:string" minOccurs="0" />
+				<xs:element ref="ContactMethods" />
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContactMethods">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ContactMethod" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContactMethod">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="sequenceNum" type="xs:string"
+						use="required" />
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="email" />
+								<xs:enumeration value="fax" />
+								<xs:enumeration value="phone" />
+								<xs:enumeration value="Email" />
+								<xs:enumeration value="Fax" />
+								<xs:enumeration value="Phone" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Shipments">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="ReferenceNumbers" minOccurs="0" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element ref="Shipment" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Shipment">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="Status" minOccurs="0" />
+				<xs:element ref="Enterprise" minOccurs="0" />
+				<xs:element ref="ReferenceNumbers" />
+				<xs:element ref="Comments" minOccurs="0" />
+				<xs:element ref="Dimensions" />
+				<xs:element ref="EquipmentList" minOccurs="0" />
+				<xs:element ref="ServiceList" minOccurs="0" />
+				<xs:element ref="Dates" />
+				<xs:element ref="Shipper" />
+				<xs:element ref="Consignee" />
+				<xs:element ref="ItemGroups" />
+				<xs:element ref="Payment" />
+				<xs:element ref="PriceSheets" minOccurs="0" />
+				<xs:element ref="Notes" minOccurs="0" />
+			</xs:all>
+			<xs:attribute name="type" type="xs:string" use="required" />
+			<xs:attribute name="action" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Status" type="xs:string" />
+	<xs:element name="Comments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Comment" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Comment">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EquipmentList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EquipmentCode" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ServiceCode" type="xs:string" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Dimensions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Dimension" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Dimension">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" />
+					<xs:attribute name="uom" type="xs:string" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Pickup">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Drop">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Shipper">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Address" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AppointmentTime">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" use="required">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="earliest" />
+								<xs:enumeration value="latest" />
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Consignee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Address" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PriceSheets">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="PriceSheet" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PriceSheet">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="ContractId" minOccurs="0" />
+				<xs:element ref="SCAC" minOccurs="0" />
+				<xs:element ref="Mode" minOccurs="0" />
+				<xs:element ref="Service" minOccurs="0" />
+				<xs:element ref="AccessorialTotal" minOccurs="0" />
+				<xs:element ref="SubTotal" minOccurs="0" />
+				<xs:element ref="Total" minOccurs="0" />
+				<xs:element ref="NormalizedTotal" minOccurs="0" />
+				<xs:element name="Carrier">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CarrierId" type="xs:string" />
+							<xs:element name="CarrierName" type="xs:string" />
+							<xs:element name="SCAC" type="xs:string" />
+							<xs:element name="Mode" type="xs:string" />
+							<xs:element name="Service" type="xs:string" />
+							<xs:element name="ServiceDays" type="xs:decimal" />
+							<xs:element name="Distance" type="xs:decimal" />
+							<xs:element name="Id" type="xs:string" />
+							<xs:element name="InsuranceTypes">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Insurance"
+											maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="type"
+													type="xs:string"
+													use="required" />
+												<xs:attribute name="amount"
+													type="xs:decimal"
+													use="required" />
+												<xs:attribute name="company"
+													type="xs:string" />
+												<xs:attribute
+													name="expirationDate"
+													type="xs:string" />
+												<xs:attribute name="contactName"
+													type="xs:string" />
+												<xs:attribute
+													name="contactPhone"
+													type="xs:string" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Charges" minOccurs="0" />
+			</xs:all>
+			<xs:attribute name="type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Carrier" />
+						<xs:enumeration value="Customer" />
+						<xs:enumeration value="Charge" />
+						<xs:enumeration value="Cost" />
+						<xs:enumeration value="Billed" />
+						<xs:enumeration value="VendorRate" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="isSelected" type="xs:string" use="required" />
+			<xs:attribute name="updateDate" type="xs:string" use="optional" />
+			<xs:attribute name="currencyCode" type="xs:string" use="optional" />
+			<xs:attribute name="exchangeDate" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContractId" type="xs:string" />
+	<xs:element name="SCAC" type="xs:string" />
+	<xs:element name="Mode" type="xs:string" />
+	<xs:element name="Service" type="xs:string" />
+	<xs:element name="AccessorialTotal" type="xs:string" />
+	<xs:element name="SubTotal" type="xs:string" />
+	<xs:element name="Total" type="xs:string" />
+	<xs:element name="NormalizedTotal">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="currencyCode" type="xs:string"
+						use="optional" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Charges">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Charge" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Charge">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Description" type="xs:string" />
+				<xs:element name="EdiCode" type="xs:string" minOccurs="0" />
+				<xs:element name="Amount" type="xs:decimal" />
+				<xs:element name="Rate" type="xs:decimal" />
+				<xs:element name="RateQualifier" type="xs:string" />
+				<xs:element name="Quantity" type="xs:decimal" />
+				<xs:element name="Weight" type="xs:decimal" minOccurs="0" />
+				<xs:element name="FreightClass" type="xs:decimal" minOccurs="0" />
+				<xs:element name="FakFreightClass" type="xs:decimal"
+					minOccurs="0" />
+				<xs:element name="AccessorialCode" type="xs:string"
+					minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="sequence" type="xs:integer" use="required" />
+			<xs:attribute name="type" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Activities">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Activity" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Activity">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ActivityID" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="Summary" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="Priority" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="Required" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="Status" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="AssignedTo" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="PlannedDate" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="PercentageComplete" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="CompletedDate" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="TimeZone" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="StatusDetails" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="Location" type="TypeLocationEnvelope"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element ref="Contact" minOccurs="0" maxOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Notes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Note" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Comment" minOccurs="0"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="user"
+												type="xs:string" use="optional" />
+											<xs:attribute name="dateTime"
+												type="xs:string" use="optional" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="type" type="xs:string"
+							use="optional" />
+						<xs:attribute name="subject" type="xs:string"
+							use="optional" />
+						<xs:attribute name="priority" type="xs:string"
+							use="optional" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InternationalDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MoveType" type="xs:string" />
+				<xs:element name="VesselName" type="xs:string" />
+				<xs:element name="VoyageNumber" type="xs:string" />
+				<xs:element name="LLoydsCode" type="xs:string" />
+				<xs:element ref="LetterOfCredit" />
+				<xs:element name="ImmediateTransportationNumber"
+					type="xs:string" />
+				<xs:element name="ImmediateTransportationDate" type="xs:string" />
+				<xs:element name="TransportationAndExportationNumber"
+					type="xs:string" />
+				<xs:element name="ImmediateExportNumber" type="xs:string" />
+				<xs:element name="ExporterReferenceNumber" type="xs:string" />
+				<xs:element name="ExporterLicenseNumber" type="xs:string" />
+				<xs:element name="ExportLicenseDate" type="xs:string" />
+				<xs:element name="FMCNumber" type="xs:string" />
+				<xs:element name="InternalTransactionNumber" type="xs:string" />
+				<xs:element name="ElectronicExportInformation" type="xs:string" />
+				<xs:element name="ExportDeclaration" type="xs:string" />
+				<xs:element name="USAMSNumber" type="xs:string" />
+				<xs:element name="DestinationControlStatement" type="xs:string" />
+				<xs:element name="ISFShipmentType" type="xs:string" />
+				<xs:element name="ISFBondHolder" type="xs:string" />
+				<xs:element name="ISFBondNumber" type="xs:string" />
+				<xs:element name="SuretyNumber" type="xs:string" />
+				<xs:element name="PointOfOrigin" type="TypeLocationEnvelope" />
+				<xs:element name="ContainerStuffingLocation"
+					type="TypeLocationEnvelope" />
+				<xs:element name="ContainerStufferLocation"
+					type="TypeLocationEnvelope" />
+				<xs:element name="PortOfEntry" type="TypeLocationEnvelope" />
+				<xs:element name="PortOfExport" type="TypeLocationEnvelope" />
+				<xs:element name="FirstPortOfUnlading"
+					type="TypeLocationEnvelope" />
+				<xs:element name="FinalPortOfDestination"
+					type="TypeLocationEnvelope" />
+				<xs:element name="FinalCountryOfDestination"
+					type="TypeLocationEnvelope" />
+				<xs:element ref="GenericField" />
+				<xs:element name="AESVesselFlag" type="xs:string" />
+				<xs:element name="AESImportEntryNumber" type="xs:string" />
+				<xs:element name="AESInbondType" type="xs:string" />
+				<xs:element name="AESRelatedCompanies" type="xs:string" />
+				<xs:element name="AESRoutedTransaction" type="xs:string" />
+				<xs:element name="ReasonForExport" type="xs:string" />
+				<xs:element name="ECCN" type="xs:string" />
+				<xs:element name="BlanketPeriodBeginDate" type="xs:string" />
+				<xs:element name="BlanketPeriodEndDate" type="xs:string" />
+				<xs:element name="IsDECPreviligeAvailable" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="AesCarrierCode" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="ActionCode1" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="ActionCode2" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="USPPIIrsNumber" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="USPPIIrsIdType" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="UsStateOfOriginCode" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="AESModeOfTransport" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="AESFilingOption" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="DepartureDate" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="AESForeignTradeZone" type="xs:string"
+					minOccurs="0" maxOccurs="1" />
+				<xs:element name="IncoTerms" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="ImportExport" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="VesselIMO" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="VesselID" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="VoyageService" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LetterOfCredit">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Number" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="IssuedDate" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element name="ExpirationDate" type="xs:string" minOccurs="0"
+					maxOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GenericField">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" />
+					<xs:attribute name="format" type="xs:string" />
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="TypeLocationEnvelope">
+		<xs:sequence>
+			<xs:element ref="Address" minOccurs="0" maxOccurs="1" />
+			<xs:element name="Dates" type="TypeDates" minOccurs="0"
+				maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="thirdParty" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="TypeDates">
+		<xs:sequence>
+			<xs:element ref="Date" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
+
