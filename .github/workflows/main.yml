@@ -19,6 +19,9 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Verify schema files
+      run: ls -R src/main/resources/schema/
+      
     - name: Build with Maven
       run: mvn clean package
 
