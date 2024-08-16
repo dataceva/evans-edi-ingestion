@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.8.6-openjdk-17 AS builder
+FROM maven:3.8.5-openjdk-17 AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -13,7 +13,7 @@ COPY lib ./lib
 RUN mvn clean package
 
 # Stage 2: Build the runtime image
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17
 
 # Set the working directory in the container
 WORKDIR /app
