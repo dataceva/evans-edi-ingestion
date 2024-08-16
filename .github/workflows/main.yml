@@ -32,8 +32,8 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
-        username: github@tirnav.com
-        password: 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
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v5
