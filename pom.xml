@@ -16,7 +16,7 @@
 	<description>DataCeva Evans EDI Integration</description>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<spring-boot.version>3.1.0</spring-boot.version>
 	</properties>
 
