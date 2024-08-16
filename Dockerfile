@@ -23,7 +23,7 @@ COPY --from=builder /app/target/evans-edi-adapter.jar app.jar
 COPY --from=builder /app/src/main/resources/aws_sftp_key /app/keys
 
 # Create a directory for the SSH key
-RUN mkdir -p /app/keys
+RUN [ ! -d "/app/keys" ] && mkdir -p /app/keys
 COPY --from=builder /app/target/evans-edi-adapter.jar app.jar
 
 # Ensure the download directory exists
