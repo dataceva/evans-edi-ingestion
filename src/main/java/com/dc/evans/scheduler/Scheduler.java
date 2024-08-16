@@ -12,7 +12,7 @@ public class Scheduler {
 	@Autowired
 	TransplaceEDIJobHandler jobHandler;
 	
-	@Scheduled(fixedDelay = 36000) // 3600000 milliseconds = 1 hour
+	@Scheduled(fixedDelay = 10000) // 3600000 milliseconds = 1 hour
 	//@Scheduled(cron = "0 0 * * * *")
 	public void fetchEDIMessages() {
 		jobHandler.downloadMessage();
