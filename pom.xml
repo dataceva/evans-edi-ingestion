@@ -220,11 +220,11 @@
 				</executions>
 				<configuration>
 					<xjbSources>
-						<xjbSource>/src/main/resources/schema/bindings.xsd</xjbSource>
+						<xjbSource>src/main/resources/schema/bindings.xsd</xjbSource>
 					</xjbSources>
 					<sources>
 						<source>
-							/src/main/resources/schema/XMLTransportParserV2.xsd</source>
+							src/main/resources/schema/XMLTransportParserV2.xsd</source>
 					</sources>
 					<outputDirectory>${basedir}/src/main/java</outputDirectory>
 					<packageName>com.dc.evans.schema.mercurygate</packageName>
