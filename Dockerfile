@@ -21,6 +21,22 @@ WORKDIR /app
 # Copy the packaged jar file from the builder stage
 COPY --from=builder /app/target/evans-edi-adapter.jar app.jar
 
+# Create a directory for the SSH key
+RUN mkdir -p /app/keys
+
+# Ensure the download directory exists
+RUN mkdir -p /app/downloads
+
+# Optionally set the default download path (if you want a default in the container)
+ENV FILE_DOWNLOAD_PATH=/app/downloads
+
+# Copy the SSH key from environment variable to a file
+# The `echo` command writes the secret to a file
+RUN echo "$SSH_KEY" > /app/keys/aws_sftp_key
+
+# Set file permissions (important for SSH keys)
+RUN chmod 600 /app/keys/aws_sftp_key
+
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
