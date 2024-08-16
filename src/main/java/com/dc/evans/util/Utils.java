@@ -108,9 +108,11 @@ public class Utils {
 		    String localDirPath = Optional.ofNullable(localDir).orElse("");
 		    File localDir = new File(localDirPath + File.separator + "received");
 		    if (!localDir.exists()) {
+		    	LOG.info("localDir: {} does not exist. Creating the directory", localDir.getPath());
 		        localDir.mkdirs();
 		    }
 		    
+		    LOG.info("Loading SSH Key File: {}", sshKey);
 		 // Load the private key
             jsch.addIdentity(sshKey);
             
@@ -124,13 +126,13 @@ public class Utils {
             
             // Connect to the session
             session.connect();
-            System.out.println("Connected to the SFTP server.");
+            LOG.info("Connected to the SFTP server.");
 
             // Open the SFTP channel
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
 
-            System.out.println("SFTP channel opened.");
+            LOG.info("SFTP channel opened.");
             
             // Download a file from the remote server
          // List files in the remote directory
@@ -149,11 +151,11 @@ public class Utils {
                     // Download the file
                     channelSftp.get(remoteFilePath, localFilePath);
                     fileNames.add(localFilePath);
-                    System.out.println("Downloaded: " + entry.getFilename());
+                    LOG.info("Downloaded: " + entry.getFilename());
 
                     // Move the file to the archive directory
                     channelSftp.rename(remoteFilePath, archiveFilePath);
-                    System.out.println("Moved to archive: " + entry.getFilename());
+                    LOG.info("Moved to archive: " + entry.getFilename());
                 }
             }
 
@@ -162,11 +164,11 @@ public class Utils {
 		} finally {
 			if (channelSftp != null && channelSftp.isConnected()) {
                 channelSftp.disconnect();
-                System.out.println("SFTP channel disconnected.");
+                LOG.info("SFTP channel disconnected.");
             }
             if (session != null && session.isConnected()) {
                 session.disconnect();
-                System.out.println("Session disconnected.");
+                LOG.info("Session disconnected.");
             }
 		}
 		return fileNames;
