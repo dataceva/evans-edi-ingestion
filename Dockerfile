@@ -20,9 +20,11 @@ WORKDIR /app
 
 # Copy the packaged jar file from the builder stage
 COPY --from=builder /app/target/evans-edi-adapter.jar app.jar
+COPY --from=builder /app/src/main/resources/aws_sftp_key /app/keys
 
 # Create a directory for the SSH key
 RUN mkdir -p /app/keys
+COPY --from=builder /app/target/evans-edi-adapter.jar app.jar
 
 # Ensure the download directory exists
 RUN mkdir -p /app/downloads
@@ -32,7 +34,7 @@ ENV FILE_DOWNLOAD_PATH=/app/downloads
 
 # Copy the SSH key from environment variable to a file
 # The `echo` command writes the secret to a file
-RUN echo "$SSH_KEY" > /app/keys/aws_sftp_key
+# RUN echo "$SSH_KEY" > /app/keys/aws_sftp_key
 
 # Set file permissions (important for SSH keys)
 RUN chmod 600 /app/keys/aws_sftp_key
