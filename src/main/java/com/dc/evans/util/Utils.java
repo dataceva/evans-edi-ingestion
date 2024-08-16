@@ -124,6 +124,9 @@ public class Utils {
             config.put("StrictHostKeyChecking", "no"); // Disable host key checking for simplicity
             session.setConfig(config);
             
+            // Set the timeout to 30 seconds (30000 milliseconds)
+            session.connect(60000);
+            
             // Connect to the session
             session.connect();
             LOG.info("Connected to the SFTP server.");
@@ -160,7 +163,9 @@ public class Utils {
             }
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 		    LOG.error("Error downloading files: " + ex.getMessage(), ex);
+		    LOG.info("Error downloading files: " + ex.getMessage(), ex);
 		} finally {
 			if (channelSftp != null && channelSftp.isConnected()) {
                 channelSftp.disconnect();
