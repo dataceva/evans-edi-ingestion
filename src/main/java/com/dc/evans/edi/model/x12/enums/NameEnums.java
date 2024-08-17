@@ -16,7 +16,8 @@ public enum NameEnums {
 	ORDER_BY("OB", "Order By"),
 	BENEFICIAL_OWNER("BN", "Beneficial Owner"),
 	CONSIGNEE("CN", "Consignee"),
-	BILL_TO_PARTY("BT", "Bill to Party");
+	BILL_TO_PARTY("BT", "Bill to Party"),
+	PAYER("PR", "Payer");
 
     private final String code;
     private final String meaning;

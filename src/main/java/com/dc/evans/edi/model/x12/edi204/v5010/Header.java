@@ -52,7 +52,9 @@ public class Header implements IEDIMessageBodyHeader<Header>{
 	@EDICollectionType(ShippingBillingGroup.class)
 	private Collection<ShippingBillingGroup> shippingBillingGroup;
 	
-	private EquipmentDetail equipmentDetail;
+	@Size(max=200)
+	@EDICollectionType(EquipmentGroup.class)
+	private Collection<EquipmentGroup> equipmentGroup;
 
 	/**
 	 * @return the transactionSetHeader
@@ -195,16 +197,17 @@ public class Header implements IEDIMessageBodyHeader<Header>{
 	}
 
 	/**
-	 * @return the equipmentDetail
+	 * @return the equipmentGroup
 	 */
-	public EquipmentDetail getEquipmentDetail() {
-		return equipmentDetail;
+	public Collection<EquipmentGroup> getEquipmentGroup() {
+		return equipmentGroup;
 	}
 
 	/**
-	 * @param equipmentDetail the equipmentDetail to set
+	 * @param equipmentGroup the equipmentGroup to set
 	 */
-	public void setEquipmentDetail(EquipmentDetail equipmentDetail) {
-		this.equipmentDetail = equipmentDetail;
+	public void setEquipmentGroup(Collection<EquipmentGroup> equipmentGroup) {
+		this.equipmentGroup = equipmentGroup;
 	}
+
 }

@@ -14,7 +14,7 @@ import com.dc.evans.edi.model.x12.segment.GroupEnvelopeTrailer;
 import com.dc.evans.edi.model.x12.segment.InterchangeEnvelopeHeader;
 import com.dc.evans.edi.model.x12.segment.InterchangeEnvelopeTrailer;
 
-@EDIMessage
+@EDIMessage(componentDelimiter='>',elementDelimiter='*',segmentDelimiter='\r')
 public class Shipment implements IEDIMessage<Shipment,ShipmentBody> {
 	
 	@NotNull

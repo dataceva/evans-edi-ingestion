@@ -8,15 +8,17 @@ import javax.edi.bind.annotations.EDISegmentGroup;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.dc.evans.edi.model.x12.segment.Dimension;
 import com.dc.evans.edi.model.x12.segment.LadingDescription;
-import com.dc.evans.edi.model.x12.segment.PersonContact;
-import com.dc.evans.edi.model.x12.segment.ShipmentWeightAndQuantityDetails;
 
 @EDISegmentGroup
 public class LadingDetailGroup {
 	
 	@NotNull
 	private LadingDescription ladingDescription;
+	
+	@NotNull
+	private Dimension dimension;
 
 	@Size(min=1)
 	@NotNull
@@ -50,5 +52,19 @@ public class LadingDetailGroup {
 	public void setShipmentWeightAndQuantityDetailGroup(
 			Collection<ShipmentWeightAndQuantityDetailGroup> shipmentWeightAndQuantityDetailGroup) {
 		this.shipmentWeightAndQuantityDetailGroup = shipmentWeightAndQuantityDetailGroup;
+	}
+
+	/**
+	 * @return the dimension
+	 */
+	public Dimension getDimension() {
+		return dimension;
+	}
+
+	/**
+	 * @param dimension the dimension to set
+	 */
+	public void setDimension(Dimension dimension) {
+		this.dimension = dimension;
 	}
 }
