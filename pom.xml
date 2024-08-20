@@ -103,16 +103,16 @@
 			<groupId>javax.edi</groupId>
 			<artifactId>jaeb-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jaeb-core-0.0.1-SNAPSHOT.jar</systemPath>
+			<!--  <scope>system</scope>
+			<systemPath>${project.basedir}/lib/jaeb-core-0.0.1-SNAPSHOT.jar</systemPath>-->
 		</dependency>
 
 		<dependency>
 			<groupId>javax.edi</groupId>
 			<artifactId>commons-convert</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/commons-convert-1.0-SNAPSHOT.jar</systemPath>
+			<!--  <scope>system</scope>
+			<systemPath>${project.basedir}/lib/commons-convert-1.0-SNAPSHOT.jar</systemPath>-->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-vfs2 -->
