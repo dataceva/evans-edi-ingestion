@@ -16,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.edi.bind.EDIUnmarshaller;
@@ -295,16 +296,16 @@ public class TransplaceEDIJobHandler {
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
 								LOG.info("Ear;liest Date: {}", d.getDate());
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
 								LOG.info("Latest Date: {}", d.getDate());
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							pickup.getDate().add(date);
@@ -387,15 +388,15 @@ public class TransplaceEDIJobHandler {
 							Date date = new Date();
 							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							drop.getDate().add(date);
@@ -875,15 +876,15 @@ public class TransplaceEDIJobHandler {
 
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							pickup.getDate().add(date);
@@ -966,15 +967,15 @@ public class TransplaceEDIJobHandler {
 							Date date = new Date();
 							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
+								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
+												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							drop.getDate().add(date);
@@ -1336,8 +1337,8 @@ public class TransplaceEDIJobHandler {
 	}
 	
 	private static LocalTime parseFlexibleTime(String timeString) {
-        DateTimeFormatter formatterWithSeconds = DateTimeFormatter.ofPattern("HHmmss");
-        DateTimeFormatter formatterWithoutSeconds = DateTimeFormatter.ofPattern("HHmm");
+        DateTimeFormatter formatterWithSeconds = DateTimeFormatter.ofPattern("HHmmss",Locale.ENGLISH);
+        DateTimeFormatter formatterWithoutSeconds = DateTimeFormatter.ofPattern("HHmm",Locale.ENGLISH);
 
         try {
             if (timeString.length() == 6) {
