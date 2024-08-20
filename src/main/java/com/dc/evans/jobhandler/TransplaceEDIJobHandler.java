@@ -1320,6 +1320,9 @@ public class TransplaceEDIJobHandler {
 				if(response.statusCode() > 299) {
 					mailService.sendErrorEmail(fileProcessEmailTo.split(","), "Error while sending XML to MercuryGate", 
 							"Error while sending XML to MercuryGate \n\nError Stack: "+ response.body() + "\n\nXML Payload:"+ xmlString);
+				}else {
+					mailService.sendEmail(fileProcessEmailTo.split(","), "XML to MercuryGate - Success", 
+							"\n\nXML Payload:"+ xmlString +"\n\n Response:\n\n"+ response.body(), Boolean.FALSE);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
