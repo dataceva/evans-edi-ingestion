@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -175,6 +176,9 @@ public class TransplaceEDIJobHandler {
 	}
 
 	public void generateMercuryGateXML(Shipment shipment) throws Exception {
+		// Define the desired date format
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        
 		for (IEDIMessageBody<ShipmentBody> body : shipment.getBody()) {
 			try {
 				Header header = (Header) body.getHeader();
@@ -296,16 +300,12 @@ public class TransplaceEDIJobHandler {
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
 								LOG.info("Ear;liest Date: {}", d.getDate());
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
 								LOG.info("Latest Date: {}", d.getDate());
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							pickup.getDate().add(date);
@@ -388,15 +388,11 @@ public class TransplaceEDIJobHandler {
 							Date date = new Date();
 							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							drop.getDate().add(date);
@@ -758,6 +754,10 @@ public class TransplaceEDIJobHandler {
 	}
 	
 	public void generateMercuryGateXML(com.dc.evans.edi.model.x12.edi204.v5010.Shipment shipment) throws Exception {
+
+		// Define the desired date format
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        
 		for (IEDIMessageBody<com.dc.evans.edi.model.x12.edi204.v5010.ShipmentBody> body : shipment.getBody()) {
 			try {
 				com.dc.evans.edi.model.x12.edi204.v5010.Header header = (com.dc.evans.edi.model.x12.edi204.v5010.Header) body.getHeader();
@@ -876,15 +876,11 @@ public class TransplaceEDIJobHandler {
 
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							pickup.getDate().add(date);
@@ -967,15 +963,11 @@ public class TransplaceEDIJobHandler {
 							Date date = new Date();
 							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("earliest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
 								date.setType("latest");
-								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy",Locale.ENGLISH)
-										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
-												DateTimeFormatter.ofPattern("dd-MMM-yyyy",Locale.ENGLISH)))
+								date.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 							}
 							drop.getDate().add(date);
