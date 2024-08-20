@@ -31,7 +31,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
@@ -103,16 +103,12 @@
 			<groupId>javax.edi</groupId>
 			<artifactId>jaeb-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jaeb-core-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.edi</groupId>
 			<artifactId>commons-convert</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/commons-convert-1.0-SNAPSHOT.jar</systemPath>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-vfs2 -->
@@ -123,16 +119,16 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 		<dependency>
-  <groupId>com.github.mwiede</groupId>
-  <artifactId>jsch</artifactId>
-  <version>0.1.58</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk18on</artifactId>
-    <version>1.78.1</version>
-</dependency>
+			<groupId>com.github.mwiede</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.58</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk18on</artifactId>
+			<version>1.78.1</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>

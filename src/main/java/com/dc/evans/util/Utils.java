@@ -154,7 +154,7 @@ public class Utils {
                     LOG.info("Downloaded: " + entry.getFilename());
 
                     // Move the file to the archive directory
-                    //channelSftp.rename(remoteFilePath, archiveFilePath);
+                    channelSftp.rename(remoteFilePath, archiveFilePath);
                     LOG.info("Moved to archive: " + entry.getFilename());
                 }
             }
