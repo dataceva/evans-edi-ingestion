@@ -103,10 +103,10 @@ public class TransplaceEDIJobHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(TransplaceEDIJobHandler.class);
 
 	@Value("${mg-endpoint}")
-	private static String mercuryGateEndpoint;
+	private String mercuryGateEndpoint;
 
 	@Value("${mg-auth}")
-	private static String mercuryGateAuth;
+	private String mercuryGateAuth;
 	
 	@Autowired
 	private MailServiceImpl mailService;
@@ -180,6 +180,8 @@ public class TransplaceEDIJobHandler {
 				Detail detail = (Detail) body.getDetail();
 				Trailer trailer = (Trailer) body.getTrailer();
 
+				LOG.info("Starting to send Shipment to Mercury Gate for Shipment: {}", header.getBeginningSegmentforInvoice().getShipmentRefNumber());
+				
 				// Create an instance of your object
 				ServiceRequest serviceRequest = new ServiceRequest();
 				serviceRequest.setServiceId("ImportWeb");
@@ -291,12 +293,14 @@ public class TransplaceEDIJobHandler {
 							Date date = new Date();
 
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
+								LOG.info("Ear;liest Date: {}", d.getDate());
 								date.setType("earliest");
 								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),
 												DateTimeFormatter.ofPattern("dd-MMM-yyyy")))
 										+ " " + parseFlexibleTime(d.getTime()));
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
+								LOG.info("Latest Date: {}", d.getDate());
 								date.setType("latest");
 								date.setValue(DateTimeFormatter.ofPattern("MM/dd/yyyy")
 										.format(LocalDate.parse(DateFormat.getDateInstance().format(d.getDate()),

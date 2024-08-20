@@ -1,7 +1,5 @@
 package com.dc.evans.edi.model.x12.segment;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 
 import javax.edi.bind.annotations.EDIElement;

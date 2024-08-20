@@ -27,3 +27,4 @@ replay_pid*
 /.settings
 /target
 /src/main/java/META-INF
+/src/main/java/com/dc/evans/schema/mercurygate
