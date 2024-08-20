@@ -89,7 +89,9 @@ public class MailServiceImpl {
 				logger.warn("Email could not be sent to Developer");
 			}
 		}
-	}@Async
+	}
+	
+	@Async
 	public void sendErrorEmail(String[] to,String subject, String content) {
 		logger.debug("Sending error email");
 		// Prepare message using a Spring helper
@@ -100,9 +102,9 @@ public class MailServiceImpl {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
 
 			message.setTo(to);
-			message.setFrom(new InternetAddress(fromEmail, "PK Enterprises Automation"));
+			message.setFrom(new InternetAddress(fromEmail, "DataCeva Automation"));
 			message.setSubject(subject);
-			message.setText(content, Boolean.TRUE);
+			message.setText(content, Boolean.FALSE);
 			
 			javaMailSender.send(mimeMessage);
 
