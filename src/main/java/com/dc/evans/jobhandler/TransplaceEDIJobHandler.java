@@ -8,9 +8,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -42,6 +40,7 @@ import com.dc.evans.edi.model.x12.edi204.v4010.ShipmentWeightAndQuantityDetailGr
 import com.dc.evans.edi.model.x12.edi204.v4010.StopOffDetailContactGroup;
 import com.dc.evans.edi.model.x12.edi204.v4010.StopOffDetailGroup;
 import com.dc.evans.edi.model.x12.edi204.v4010.Trailer;
+import com.dc.evans.edi.model.x12.segment.DateReference;
 import com.dc.evans.edi.model.x12.segment.PersonContact;
 import com.dc.evans.schema.mercurygate.Address;
 import com.dc.evans.schema.mercurygate.Charge;
@@ -294,24 +293,44 @@ public class TransplaceEDIJobHandler {
 						pickupEvent.setSequenceNum(String.valueOf(eventCount));
 
 						Dates dates = new Dates();
-						stopOffDetailGroup.getDateReference().forEach(d -> {
-							Date date = new Date();
-
+						boolean isEarliestPresent = false, isLatestPresent = false;
+						Date earliestDate = new Date();
+						Date latestDate = new Date();
+						
+						for(DateReference d : stopOffDetailGroup.getDateReference()) {
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
-								LOG.info("Ear;liest Date: {}", d.getDate());
-								date.setType("earliest");
-								date.setValue(sdf.format(d.getDate())
+								earliestDate.setType("earliest");
+								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isEarliestPresent=true;
+								drop.getDate().add(earliestDate);
+								dates.getDate().add(earliestDate);
+								pickupEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
-								LOG.info("Latest Date: {}", d.getDate());
-								date.setType("latest");
-								date.setValue(sdf.format(d.getDate())
+								latestDate.setType("latest");
+								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isLatestPresent=true;
+								drop.getDate().add(latestDate);
+								dates.getDate().add(latestDate);
+								pickupEvent.setDates(dates);
 							}
-							pickup.getDate().add(date);
-							dates.getDate().add(date);
+						}
+						
+						if(!isEarliestPresent && isLatestPresent) {
+							earliestDate.setType("earliest");
+							earliestDate.setValue(latestDate.getValue());
+							drop.getDate().add(earliestDate);
+							dates.getDate().add(earliestDate);
 							pickupEvent.setDates(dates);
-						});
+						}else if(!isLatestPresent && isEarliestPresent) {
+							latestDate.setType("latest");
+							latestDate.setValue(earliestDate.getValue());
+							drop.getDate().add(latestDate);
+							dates.getDate().add(latestDate);
+							pickupEvent.setDates(dates);
+						}
+						
 						pickupDates.setPickup(pickup);
 						
 						Shipments shipments = new Shipments();
@@ -384,21 +403,43 @@ public class TransplaceEDIJobHandler {
 						dropEvent.setSequenceNum(String.valueOf(eventCount));
 
 						Dates dates = new Dates();
-						stopOffDetailGroup.getDateReference().forEach(d -> {
-							Date date = new Date();
-							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("earliest");
-								date.setValue(sdf.format(d.getDate())
+						boolean isEarliestPresent = false, isLatestPresent = false;
+						Date earliestDate = new Date();
+						Date latestDate = new Date();
+						for(DateReference d : stopOffDetailGroup.getDateReference()) {
+							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier()) || "78".equalsIgnoreCase(d.getDateQualifier())) {
+								earliestDate.setType("earliest");
+								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isEarliestPresent=true;
+								drop.getDate().add(earliestDate);
+								dates.getDate().add(earliestDate);
+								dropEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("latest");
-								date.setValue(sdf.format(d.getDate())
+								latestDate.setType("latest");
+								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isLatestPresent=true;
+								drop.getDate().add(latestDate);
+								dates.getDate().add(latestDate);
+								dropEvent.setDates(dates);
 							}
-							drop.getDate().add(date);
-							dates.getDate().add(date);
+						}
+						
+						if(!isEarliestPresent && isLatestPresent) {
+							earliestDate.setType("earliest");
+							earliestDate.setValue(latestDate.getValue());
+							drop.getDate().add(earliestDate);
+							dates.getDate().add(earliestDate);
 							dropEvent.setDates(dates);
-						});
+						}else if(!isLatestPresent && isEarliestPresent) {
+							latestDate.setType("latest");
+							latestDate.setValue(earliestDate.getValue());
+							drop.getDate().add(latestDate);
+							dates.getDate().add(latestDate);
+							dropEvent.setDates(dates);
+						}
+						
 						dropDates.setDrop(drop);
 						
 						Shipments shipments = new Shipments();
@@ -871,22 +912,43 @@ public class TransplaceEDIJobHandler {
 						pickupEvent.setSequenceNum(String.valueOf(eventCount));
 
 						Dates dates = new Dates();
-						stopOffDetailGroup.getDateReference().forEach(d -> {
-							Date date = new Date();
-
+						boolean isEarliestPresent = false, isLatestPresent = false;
+						Date earliestDate = new Date();
+						Date latestDate = new Date();
+						
+						for(DateReference d : stopOffDetailGroup.getDateReference()) {
 							if ("37".equalsIgnoreCase(d.getDateQualifier()) || "10".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("earliest");
-								date.setValue(sdf.format(d.getDate())
+								earliestDate.setType("earliest");
+								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isEarliestPresent=true;
+								drop.getDate().add(earliestDate);
+								dates.getDate().add(earliestDate);
+								pickupEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("latest");
-								date.setValue(sdf.format(d.getDate())
+								latestDate.setType("latest");
+								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isLatestPresent=true;
+								drop.getDate().add(latestDate);
+								dates.getDate().add(latestDate);
+								pickupEvent.setDates(dates);
 							}
-							pickup.getDate().add(date);
-							dates.getDate().add(date);
+						}
+						
+						if(!isEarliestPresent && isLatestPresent) {
+							earliestDate.setType("earliest");
+							earliestDate.setValue(latestDate.getValue());
+							drop.getDate().add(earliestDate);
+							dates.getDate().add(earliestDate);
 							pickupEvent.setDates(dates);
-						});
+						}else if(!isLatestPresent && isEarliestPresent) {
+							latestDate.setType("latest");
+							latestDate.setValue(earliestDate.getValue());
+							drop.getDate().add(latestDate);
+							dates.getDate().add(latestDate);
+							pickupEvent.setDates(dates);
+						}
 						pickupDates.setPickup(pickup);
 						
 						Shipments shipments = new Shipments();
@@ -959,21 +1021,42 @@ public class TransplaceEDIJobHandler {
 						dropEvent.setSequenceNum(String.valueOf(eventCount));
 
 						Dates dates = new Dates();
-						stopOffDetailGroup.getDateReference().forEach(d -> {
-							Date date = new Date();
-							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("earliest");
-								date.setValue(sdf.format(d.getDate())
+						boolean isEarliestPresent = false, isLatestPresent = false;
+						Date earliestDate = new Date();
+						Date latestDate = new Date();
+						for(DateReference d : stopOffDetailGroup.getDateReference()) {
+							if ("02".equalsIgnoreCase(d.getDateQualifier()) || "53".equalsIgnoreCase(d.getDateQualifier()) || "78".equalsIgnoreCase(d.getDateQualifier())) {
+								earliestDate.setType("earliest");
+								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isEarliestPresent=true;
+								drop.getDate().add(earliestDate);
+								dates.getDate().add(earliestDate);
+								dropEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
-								date.setType("latest");
-								date.setValue(sdf.format(d.getDate())
+								latestDate.setType("latest");
+								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
+								isLatestPresent=true;
+								drop.getDate().add(latestDate);
+								dates.getDate().add(latestDate);
+								dropEvent.setDates(dates);
 							}
-							drop.getDate().add(date);
-							dates.getDate().add(date);
+						}
+						
+						if(!isEarliestPresent && isLatestPresent) {
+							earliestDate.setType("earliest");
+							earliestDate.setValue(latestDate.getValue());
+							drop.getDate().add(earliestDate);
+							dates.getDate().add(earliestDate);
 							dropEvent.setDates(dates);
-						});
+						}else if(!isLatestPresent && isEarliestPresent) {
+							latestDate.setType("latest");
+							latestDate.setValue(earliestDate.getValue());
+							drop.getDate().add(latestDate);
+							dates.getDate().add(latestDate);
+							dropEvent.setDates(dates);
+						}
 						dropDates.setDrop(drop);
 						
 						Shipments shipments = new Shipments();
