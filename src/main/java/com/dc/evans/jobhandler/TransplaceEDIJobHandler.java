@@ -781,11 +781,16 @@ public class TransplaceEDIJobHandler {
 				Map<String, String> headers = new HashMap<>();
 				headers.put("Authorization", mercuryGateAuth);
 				headers.put("Content-Type", "application/xml");
+				
+				LOG.info("MercuryGate Endpoint: {}, Auth: {}",mercuryGateEndpoint,mercuryGateAuth);
 				HttpResponse<String> response = HttpClientUtil.sendHttpRequest(HttpProtocol.POST, mercuryGateEndpoint, headers, xmlString);
 				LOG.info("API Response: {}",response.body());
 				if(response.statusCode() > 299) {
 					mailService.sendErrorEmail(fileProcessEmailTo.split(","), "Error while sending XML to MercuryGate", 
 							"Error while sending XML to MercuryGate \n\nError Stack: "+ response.body() + "\n\nXML Payload:"+ xmlString);
+				}else {
+					mailService.sendEmail(fileProcessEmailTo.split(","), "XML to MercuryGate - Success", 
+							"\n\nXML Payload:"+ xmlString +"\n\n Response:\n\n"+ response.body(), Boolean.FALSE);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1398,6 +1403,9 @@ public class TransplaceEDIJobHandler {
 				Map<String, String> headers = new HashMap<>();
 				headers.put("Authorization", mercuryGateAuth);
 				headers.put("Content-Type", "application/xml");
+				
+				LOG.info("MercuryGate Endpoint: {}, Auth: {}",mercuryGateEndpoint,mercuryGateAuth);
+				
 				HttpResponse<String> response = HttpClientUtil.sendHttpRequest(HttpProtocol.POST, mercuryGateEndpoint, headers, xmlString);
 				LOG.info("API Response: {}",response.body());
 				if(response.statusCode() > 299) {
