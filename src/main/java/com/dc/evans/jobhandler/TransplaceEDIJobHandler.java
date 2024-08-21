@@ -412,7 +412,7 @@ public class TransplaceEDIJobHandler {
 								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 								isEarliestPresent=true;
-								pickup.getDate().add(earliestDate);
+								drop.getDate().add(earliestDate);
 								dates.getDate().add(earliestDate);
 								dropEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier()) || "54".equalsIgnoreCase(d.getDateQualifier())) {
@@ -420,7 +420,7 @@ public class TransplaceEDIJobHandler {
 								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 								isLatestPresent=true;
-								pickup.getDate().add(latestDate);
+								drop.getDate().add(latestDate);
 								dates.getDate().add(latestDate);
 								dropEvent.setDates(dates);
 							}
@@ -429,13 +429,13 @@ public class TransplaceEDIJobHandler {
 						if(!isEarliestPresent && isLatestPresent) {
 							earliestDate.setType("earliest");
 							earliestDate.setValue(latestDate.getValue());
-							pickup.getDate().add(earliestDate);
+							drop.getDate().add(earliestDate);
 							dates.getDate().add(earliestDate);
 							dropEvent.setDates(dates);
 						}else if(!isLatestPresent && isEarliestPresent) {
 							latestDate.setType("latest");
 							latestDate.setValue(earliestDate.getValue());
-							pickup.getDate().add(latestDate);
+							drop.getDate().add(latestDate);
 							dates.getDate().add(latestDate);
 							dropEvent.setDates(dates);
 						}
@@ -922,7 +922,7 @@ public class TransplaceEDIJobHandler {
 								earliestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 								isEarliestPresent=true;
-								drop.getDate().add(earliestDate);
+								pickup.getDate().add(earliestDate);
 								dates.getDate().add(earliestDate);
 								pickupEvent.setDates(dates);
 							} else if ("38".equalsIgnoreCase(d.getDateQualifier())) {
@@ -930,7 +930,7 @@ public class TransplaceEDIJobHandler {
 								latestDate.setValue(sdf.format(d.getDate())
 										+ " " + parseFlexibleTime(d.getTime()));
 								isLatestPresent=true;
-								drop.getDate().add(latestDate);
+								pickup.getDate().add(latestDate);
 								dates.getDate().add(latestDate);
 								pickupEvent.setDates(dates);
 							}
@@ -939,13 +939,13 @@ public class TransplaceEDIJobHandler {
 						if(!isEarliestPresent && isLatestPresent) {
 							earliestDate.setType("earliest");
 							earliestDate.setValue(latestDate.getValue());
-							drop.getDate().add(earliestDate);
+							pickup.getDate().add(earliestDate);
 							dates.getDate().add(earliestDate);
 							pickupEvent.setDates(dates);
 						}else if(!isLatestPresent && isEarliestPresent) {
 							latestDate.setType("latest");
 							latestDate.setValue(earliestDate.getValue());
-							drop.getDate().add(latestDate);
+							pickup.getDate().add(latestDate);
 							dates.getDate().add(latestDate);
 							pickupEvent.setDates(dates);
 						}
