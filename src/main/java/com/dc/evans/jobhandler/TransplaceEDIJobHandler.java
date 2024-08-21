@@ -779,7 +779,7 @@ public class TransplaceEDIJobHandler {
 				System.out.println(xmlString);
 
 				Map<String, String> headers = new HashMap<>();
-				headers.put("Authorization", mercuryGateAuth);
+				headers.put("Authorization", "Basic " + mercuryGateAuth);
 				headers.put("Content-Type", "application/xml");
 				
 				LOG.info("MercuryGate Endpoint: {}, Auth: {}",mercuryGateEndpoint,mercuryGateAuth);
@@ -1401,7 +1401,7 @@ public class TransplaceEDIJobHandler {
 				System.out.println(xmlString);
 
 				Map<String, String> headers = new HashMap<>();
-				headers.put("Authorization", mercuryGateAuth);
+				headers.put("Authorization", "Basic " + mercuryGateAuth);
 				headers.put("Content-Type", "application/xml");
 				
 				LOG.info("MercuryGate Endpoint: {}, Auth: {}",mercuryGateEndpoint,mercuryGateAuth);
